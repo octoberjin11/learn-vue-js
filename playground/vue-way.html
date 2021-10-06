@@ -18,18 +18,28 @@
             // 정의할 내용
         //});
 
-        Object.defineProperty(viewModel, 'str', {
-            // 속성에 접근했을 때의 동작을 정의
-            get: function(){
-                //viewModel.str >> 접근
-                console.log('접근');
-            },
-            // 속성에 값을 할당했을 때의 동작을 정의
-            set: function(newValue){
-                //viewModel.str = 10; >> 할당 10
-                console.log('할당', newValue);
-                div.innerHTML = newValue; // 데이터 바인딩
+        (function(){ //IIFE : 즉시 실행 함수(정의되자마자 즉시 실행되는 자바스크립트 함수를 말한다.) > init()과 render() 함수가 Apllication 로직에 노출되지 않게 자체 실행되는 부분의 코드(즉시 실행 함수 안에 정의된 코드들)를 또다른 scope(유효범위)에 넣어주는 것. 일반적으로 오픈소스라이브러리들이 이런식으로 변수의 유효범위를 관리하고 있다.
+            function init(){
+                Object.defineProperty(viewModel, 'str', {
+                    // 속성에 접근했을 때의 동작을 정의
+                    get: function(){
+                        //viewModel.str >> 접근
+                        console.log('접근');
+                    },
+                    // 속성에 값을 할당했을 때의 동작을 정의
+                    set: function(newValue){
+                        //viewModel.str = 10; >> 할당 10
+                        console.log('할당', newValue);
+                        render(newValue);
+                    }
+                })
             }
+
+            function render(value){
+                div.innerHTML = value; // 데이터 바인딩
+            }
+
+            init();
         })
 
         // Vue 의 핵심
